@@ -1,43 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Iframe Website Loader</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LitShark site bypasser</title>
+  <!-- Google Font for a pixel-like style -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- Canvas Confetti Library for the easter egg -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
+    /* Light/Dark mode defaults */
     body {
+      margin: 0;
       font-family: Arial, sans-serif;
       background: #f9f9f9;
-      margin: 0;
-      padding: 20px;
-      text-align: center;
+      color: #333;
     }
-    h1 {
-      margin-bottom: 20px;
+    @media (prefers-color-scheme: dark) {
+      body {
+        background: #222;
+        color: #ddd;
+      }
+      header {
+        background: #000;
+        color: #fff;
+      }
+      .column {
+        background: #333;
+      }
+      .input-group input {
+        background: #555;
+        color: #fff;
+        border: 1px solid #777;
+      }
+    }
+
+    /* Header */
+    header {
+      text-align: center;
+      background: #333;
+      color: #fff;
+      padding: 20px;
+      font-size: 2em;
+      letter-spacing: 1px;
+      position: relative;
+    }
+
+    /* Container for two methods */
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      margin: 20px;
+      gap: 20px;
+    }
+    .column {
+      flex: 1;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .column h2 {
+      text-align: center;
+      margin-top: 0;
     }
     .input-group {
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+    }
+    .input-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
     }
     .input-group input {
-      width: 300px;
+      width: 100%;
       padding: 8px;
       font-size: 1em;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
-    .input-group button {
-      padding: 8px 16px;
-      font-size: 1em;
-      border: none;
-      border-radius: 4px;
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 10px;
       background: #007BFF;
       color: #fff;
+      border: none;
+      border-radius: 4px;
+      font-size: 1em;
       cursor: pointer;
-      margin-left: 10px;
+      margin-top: 10px;
     }
-    .input-group button:hover {
+    .btn:hover {
       background: #0056b3;
     }
+    .link-group a {
+      display: inline-block;
+      margin: 10px 0;
+      padding: 10px;
+      background: #28a745;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 4px;
+      text-align: center;
+    }
+    .link-group a:hover {
+      background: #218838;
+    }
+    .divider {
+      width: 1px;
+      background: #ccc;
+    }
+    @media(max-width:768px) {
+      .container {
+        flex-direction: column;
+      }
+      .divider {
+        display: none;
+      }
+    }
+    
+    /* Angled Text for Easter Egg (Top Left) */
+    #angled-text {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      transform: rotate(-15deg);
+      font-size: 0.8rem;
+      font-family: 'Press Start 2P', cursive;
+      font-style: italic;
+      animation: breathe 2s ease-in-out infinite;
+      cursor: default;
+      background: rgba(255,255,255,0.8);
+      padding: 5px;
+      border-radius: 4px;
+      z-index: 1000;
+    }
+    @keyframes breathe {
+      0%, 100% {
+        transform: rotate(-15deg) scale(1);
+      }
+      50% {
+        transform: rotate(-15deg) scale(1.1);
+      }
+    }
+    
+    /* Cat image for easter egg */
+    #cat-image {
+      display: none;
+      max-width: 300px;
+      margin: 1rem auto;
+      display: block;
+    }
+    
+    /* Iframe styling (if needed in future) */
     iframe {
       width: 100%;
       height: 80vh;
@@ -47,23 +164,135 @@
   </style>
 </head>
 <body>
-  <h1>Iframe Website Loader</h1>
-  <div class="input-group">
-    <label for="siteURL">Enter Website URL:</label>
-    <input type="text" id="siteURL" placeholder="https://example.com">
-    <button onclick="loadWebsite()">Load Website</button>
+  <header>LitShark site bypasser</header>
+  
+  <!-- Angled Text with Easter Egg (Top Left) -->
+  <div id="angled-text"></div>
+  <!-- Hidden Cat Image (source: cat.png) -->
+  <img id="cat-image" src="cat.png" alt="" />
+
+  <div class="container">
+    <!-- Method 1: Auto-Redirect -->
+    <div class="column" id="method1">
+      <h2>Method 1</h2>
+      <div class="input-group">
+        <label for="bypassSite1">Bypass Site:</label>
+        <input type="text" id="bypassSite1" placeholder="Enter site to bypass (e.g., https://example.com)" required>
+      </div>
+      <div class="input-group">
+        <label for="sessionSite1">Misconfiguration Open Website Session:</label>
+        <input type="text" id="sessionSite1" value="https://www.cbc.ca" required>
+      </div>
+      <button class="btn" onclick="startMethod1()">Start Method 1</button>
+      <p id="method1Status" style="margin-top:10px;"></p>
+    </div>
+    
+    <div class="divider"></div>
+    
+    <!-- Method 2: Manual Steps -->
+    <div class="column" id="method2">
+      <h2>Method 2</h2>
+      <div class="input-group">
+        <label for="bypassSite2">Bypass Site:</label>
+        <input type="text" id="bypassSite2" placeholder="Enter site to bypass (e.g., https://example.com)" required>
+      </div>
+      <div class="input-group">
+        <label for="sessionSite2">Misconfiguration Open Website Session:</label>
+        <input type="text" id="sessionSite2" value="https://www.cbc.ca" required>
+      </div>
+      <div class="link-group">
+        <a href="#" id="openSessionLink" onclick="openSessionSite(event)">Open Session Site</a>
+        <a href="#" id="bypassLink" onclick="openBypassSite(event)">Go to Bypass Site</a>
+      </div>
+      <p>First click "Open Session Site" to initiate the session, then click "Go to Bypass Site".</p>
+    </div>
   </div>
-  <iframe id="websiteFrame" src=""></iframe>
   
   <script>
-    function loadWebsite() {
-      let url = document.getElementById('siteURL').value.trim();
-      // Ensure the URL starts with http:// or https://
+    // Helper function to ensure URLs start with https:// or http://
+    function normalizeURL(url) {
+      url = url.trim();
       if (!/^https?:\/\//i.test(url)) {
-        url = 'https://' + url;
+        return "https://" + url;
       }
-      document.getElementById('websiteFrame').src = url;
+      return url;
     }
+    
+    function startMethod1() {
+      const bypassSite = normalizeURL(document.getElementById('bypassSite1').value);
+      const sessionSite = normalizeURL(document.getElementById('sessionSite1').value);
+      const statusElem = document.getElementById('method1Status');
+      
+      if (!bypassSite || !sessionSite) {
+        statusElem.textContent = 'Please fill in both fields.';
+        return;
+      }
+      
+      statusElem.textContent = 'Starting auto bypass...';
+      
+      // Create hidden iframe to load the session site
+      let iframe = document.createElement('iframe');
+      iframe.style.display = 'none';
+      iframe.src = sessionSite;
+      document.body.appendChild(iframe);
+      
+      // After a short delay, redirect to the bypass site
+      setTimeout(() => {
+        window.location.href = bypassSite;
+      }, 3000);
+    }
+    
+    function openSessionSite(event) {
+      event.preventDefault();
+      const sessionSite = normalizeURL(document.getElementById('sessionSite2').value);
+      if (!sessionSite) {
+        alert('Please enter the session site URL.');
+        return;
+      }
+      window.open(sessionSite, '_blank');
+    }
+    
+    function openBypassSite(event) {
+      event.preventDefault();
+      const bypassSite = normalizeURL(document.getElementById('bypassSite2').value);
+      if (!bypassSite) {
+        alert('Please enter the bypass site URL.');
+        return;
+      }
+      window.open(bypassSite, '_blank');
+    }
+    
+    // Angled text with random messages and easter egg
+    document.addEventListener("DOMContentLoaded", function () {
+      const angledText = document.getElementById("angled-text");
+      const catImage = document.getElementById("cat-image");
+      const messages = [
+        "Made by a zaga student!",
+        "Because some people don't understand grades!",
+        "BRRRRR!",
+        "Why did the chicken cross the road?",
+        "I was bored.",
+        "Do you also procrastinate?",
+        "Want to see my cat? Click me!"
+      ];
+      const chosenMessage = messages[Math.floor(Math.random() * messages.length)];
+      angledText.textContent = chosenMessage;
+      
+      // If the cat message is chosen, add a click listener to trigger easter egg
+      if (chosenMessage === "Want to see my cat? Click me!") {
+        angledText.style.cursor = "pointer";
+        angledText.addEventListener("click", function () {
+          if (catImage.style.display === "none") {
+            catImage.style.display = "block";
+            confetti({
+              particleCount: 100,
+              spread: 70,
+              origin: { y: 0.6 }
+            });
+          }
+        });
+      }
+    });
   </script>
 </body>
 </html>
