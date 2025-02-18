@@ -4,12 +4,12 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LitShark site bypasser</title>
-  <!-- Import a pixel-like font (Press Start 2P) -->
+  <!-- Import a pixel-like font (Press Start 2P) for the angled text -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
-  <!-- Canvas Confetti Library -->
+  <!-- Canvas Confetti Library for the easter egg -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
-    /* Define CSS variables for light/dark mode */
+    /* CSS Variables for Light/Dark Mode */
     :root {
       --bg-color: #ffffff;
       --text-color: #333333;
@@ -32,26 +32,47 @@
         --button-hover-bg: #1158c7;
       }
     }
+
     /* Global Styles */
     body {
       background: var(--bg-color);
       color: var(--text-color);
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       margin: 0;
-      padding: 0;
+      font-family: sans-serif;
       position: relative;
+      padding-top: 80px; /* Leave room for header */
     }
+
+    /* Header with Flex Layout */
     header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
       background: var(--header-bg);
       color: var(--header-text);
-      padding: 20px;
-      text-align: center;
-      font-size: 2rem;
-      font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 100;
     }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    header img {
+      height: 50px;
+      width: auto;
+    }
+
+    /* Main Content Container */
     .container {
-      padding: 20px;
+      max-width: 800px;
+      margin: 0 auto;
       text-align: center;
+      padding: 20px;
     }
     .input-group {
       margin: 20px 0;
@@ -82,8 +103,47 @@
       border: none;
       margin-top: 20px;
       border-radius: 4px;
+      background: #fff;
     }
-    /* Angled Text Element */
+    #errorMessage {
+      margin-top: 10px;
+      color: red;
+      white-space: pre-wrap;
+    }
+
+    /* Fixed Sidebar for Common Websites */
+    .sidebar {
+      position: fixed;
+      top: 100px;
+      right: 10px;
+      width: 220px;
+      background: var(--bg-color);
+      border: 1px solid var(--input-border);
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .sidebar h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      color: var(--text-color);
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar ul li {
+      margin-bottom: 5px;
+    }
+    .sidebar ul li a {
+      color: var(--button-bg);
+      text-decoration: none;
+    }
+    .sidebar ul li a:hover {
+      text-decoration: underline;
+    }
+
+    /* Angled Text in the Bottom Left */
     #angled-text {
       position: absolute;
       left: 10px;
@@ -94,7 +154,7 @@
       font-style: italic;
       animation: breathe 2s ease-in-out infinite;
       cursor: default;
-      z-index: 10;
+      z-index: 50;
     }
     @keyframes breathe {
       0%, 100% {
@@ -104,7 +164,8 @@
         transform: rotate(-15deg) scale(1.1);
       }
     }
-    /* Hidden Cat Image */
+
+    /* Hidden Cat Image for Easter Egg */
     #cat-image {
       display: none;
       max-width: 300px;
@@ -114,13 +175,24 @@
   </style>
 </head>
 <body>
-  <header>LitShark site bypasser</header>
+  <!-- Header with Title and Logo -->
+  <header>
+    <h1>LitShark site bypasser</h1>
+    <img src="logo.png" alt="Logo" />
+  </header>
 
-  <!-- Angled Text with Easter Egg -->
-  <div id="angled-text"></div>
-  <!-- Hidden Cat Image -->
-  <img id="cat-image" src="cat.png" alt="Cat Easter Egg" />
+  <!-- Fixed Sidebar with Common Websites -->
+  <div class="sidebar">
+    <h3>Common Websites</h3>
+    <ul id="commonWebsites">
+      <li><a href="https://www.youtube.com" target="_blank">YouTube</a></li>
+      <li><a href="https://www.facebook.com" target="_blank">Facebook</a></li>
+      <li><a href="https://www.google.com" target="_blank">Google</a></li>
+      <!-- Add more here as needed -->
+    </ul>
+  </div>
 
+  <!-- Main Content -->
   <div class="container">
     <h2>Enter a Website to Bypass</h2>
     <div class="input-group">
@@ -128,10 +200,16 @@
       <button onclick="loadWebsite()">Bypass</button>
     </div>
     <iframe id="websiteFrame" src=""></iframe>
+    <div id="errorMessage"></div>
   </div>
-  
+
+  <!-- Angled Text with Easter Egg and Random Message -->
+  <div id="angled-text"></div>
+  <!-- Hidden Cat Image -->
+  <img id="cat-image" src="cat.png" alt="Cat Easter Egg" />
+
   <script>
-    // Normalize URL: prepend "https://" if missing
+    // Normalize URL: Prepend "https://" if missing
     function normalizeURL(url) {
       url = url.trim();
       if (!/^https?:\/\//i.test(url)) {
@@ -139,7 +217,9 @@
       }
       return url;
     }
-    
+
+    let errorTimeout; // For error detection timer
+
     function loadWebsite() {
       let url = document.getElementById('siteURL').value;
       if (!url) {
@@ -147,9 +227,26 @@
         return;
       }
       url = normalizeURL(url);
-      document.getElementById('websiteFrame').src = url;
+      const iframe = document.getElementById('websiteFrame');
+      const errorMessage = document.getElementById('errorMessage');
+      
+      // Clear previous error message
+      errorMessage.textContent = "";
+      
+      // Set the iframe source
+      iframe.src = url;
+      
+      // Start a timer: if the iframe doesn't load within 10 seconds, show an error message.
+      errorTimeout = setTimeout(function(){
+         errorMessage.textContent = "Oh no, we could not crack the firewall of " + url + "\n their devs beat mine ):";
+      }, 10000);
+      
+      // Clear the error timer when the iframe loads
+      iframe.onload = function() {
+        clearTimeout(errorTimeout);
+      };
     }
-    
+
     // Angled Text and Easter Egg Code
     document.addEventListener("DOMContentLoaded", function () {
       const angledText = document.getElementById("angled-text");
@@ -165,10 +262,11 @@
       const chosenMessage = messages[Math.floor(Math.random() * messages.length)];
       angledText.textContent = chosenMessage;
       
-      // If the cat message is chosen, set up the click listener for the Easter egg
+      // Set up the easter egg if the cat message is chosen.
       if (chosenMessage === "Want to see my cat? Click me!") {
         angledText.style.cursor = "pointer";
         angledText.addEventListener("click", function () {
+          // Show cat image and trigger confetti if not already visible.
           if (catImage.style.display === "none") {
             catImage.style.display = "block";
             confetti({
@@ -176,7 +274,7 @@
               spread: 70,
               origin: { y: 0.6 }
             });
-            // Hide the cat image after 5 seconds
+            // Hide the cat image after 5 seconds.
             setTimeout(() => {
               catImage.style.display = "none";
             }, 5000);
