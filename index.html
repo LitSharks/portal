@@ -4,59 +4,65 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>LitShark site bypasser</title>
-  <!-- Google Font for a pixel-like style -->
+  <!-- Google Font for pixelated text -->
   <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
-  <!-- Canvas Confetti Library for the easter egg -->
+  <!-- Canvas Confetti Library -->
   <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <style>
-    /* Light/Dark mode defaults */
+    /* CSS Variables for Light/Dark Mode */
+    :root {
+      --bg-color: #f9f9f9;
+      --text-color: #333;
+      --header-bg: #333;
+      --header-text: #fff;
+      --btn-bg: #007BFF;
+      --btn-bg-hover: #0056b3;
+      --link-bg: #28a745;
+      --link-bg-hover: #218838;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #e0e0e0;
+        --header-bg: #1f1f1f;
+        --header-text: #f9f9f9;
+        --btn-bg: #1a73e8;
+        --btn-bg-hover: #1669c1;
+        --link-bg: #34a853;
+        --link-bg-hover: #2a8f47;
+      }
+    }
+    
+    /* Global Styles */
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f9f9f9;
-      color: #333;
+      background: var(--bg-color);
+      color: var(--text-color);
     }
-    @media (prefers-color-scheme: dark) {
-      body {
-        background: #222;
-        color: #ddd;
-      }
-      header {
-        background: #000;
-        color: #fff;
-      }
-      .column {
-        background: #333;
-      }
-      .input-group input {
-        background: #555;
-        color: #fff;
-        border: 1px solid #777;
-      }
-    }
-
-    /* Header */
     header {
       text-align: center;
-      background: #333;
-      color: #fff;
+      background: var(--header-bg);
+      color: var(--header-text);
       padding: 20px;
-      font-size: 2em;
+      font-size: 2.5em;
       letter-spacing: 1px;
       position: relative;
     }
-
-    /* Container for two methods */
+    
+    /* Container & Layout */
     .container {
       display: flex;
       justify-content: center;
       align-items: flex-start;
       margin: 20px;
       gap: 20px;
+      flex-wrap: wrap;
     }
     .column {
       flex: 1;
-      background: #fff;
+      min-width: 280px;
+      background: var(--bg-color);
       padding: 20px;
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -65,6 +71,8 @@
       text-align: center;
       margin-top: 0;
     }
+    
+    /* Input Groups */
     .input-group {
       margin-bottom: 15px;
     }
@@ -76,15 +84,16 @@
     .input-group input {
       width: 100%;
       padding: 8px;
-      font-size: 1em;
       border: 1px solid #ccc;
       border-radius: 4px;
     }
+    
+    /* Buttons & Links */
     .btn {
       display: block;
       width: 100%;
       padding: 10px;
-      background: #007BFF;
+      background: var(--btn-bg);
       color: #fff;
       border: none;
       border-radius: 4px;
@@ -93,48 +102,46 @@
       margin-top: 10px;
     }
     .btn:hover {
-      background: #0056b3;
+      background: var(--btn-bg-hover);
     }
     .link-group a {
       display: inline-block;
       margin: 10px 0;
       padding: 10px;
-      background: #28a745;
+      background: var(--link-bg);
       color: #fff;
       text-decoration: none;
       border-radius: 4px;
       text-align: center;
     }
     .link-group a:hover {
-      background: #218838;
+      background: var(--link-bg-hover);
     }
+    
+    /* Divider */
     .divider {
       width: 1px;
       background: #ccc;
     }
-    @media(max-width:768px) {
-      .container {
-        flex-direction: column;
-      }
-      .divider {
-        display: none;
-      }
+    
+    /* Iframe Styles */
+    iframe {
+      width: 100%;
+      height: 80vh;
+      border: 1px solid #ccc;
+      border-radius: 4px;
     }
     
-    /* Angled Text for Easter Egg (Top Left) */
+    /* Angled Text for Easter Egg (Top Left Corner) */
     #angled-text {
       position: absolute;
-      left: 10px;
       top: 10px;
+      left: 10px;
       transform: rotate(-15deg);
       font-size: 0.8rem;
       font-family: 'Press Start 2P', cursive;
-      font-style: italic;
       animation: breathe 2s ease-in-out infinite;
       cursor: default;
-      background: rgba(255,255,255,0.8);
-      padding: 5px;
-      border-radius: 4px;
       z-index: 1000;
     }
     @keyframes breathe {
@@ -146,7 +153,7 @@
       }
     }
     
-    /* Cat image for easter egg */
+    /* Hidden Cat Image for Easter Egg */
     #cat-image {
       display: none;
       max-width: 300px;
@@ -154,30 +161,35 @@
       display: block;
     }
     
-    /* Iframe styling (if needed in future) */
-    iframe {
-      width: 100%;
-      height: 80vh;
-      border: 1px solid #ccc;
-      border-radius: 4px;
+    /* Responsive Layout */
+    @media(max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+      .divider {
+        display: none;
+      }
     }
   </style>
 </head>
 <body>
+  <!-- Main Header -->
   <header>LitShark site bypasser</header>
   
-  <!-- Angled Text with Easter Egg (Top Left) -->
+  <!-- Angled Text Element for Easter Egg (Top Left) -->
   <div id="angled-text"></div>
-  <!-- Hidden Cat Image (source: cat.png) -->
-  <img id="cat-image" src="cat.png" alt="" />
-
+  
+  <!-- Hidden Cat Image -->
+  <img id="cat-image" src="cat.png" alt="Cat Easter Egg" />
+  
+  <!-- Main Content: Two Methods -->
   <div class="container">
     <!-- Method 1: Auto-Redirect -->
     <div class="column" id="method1">
       <h2>Method 1</h2>
       <div class="input-group">
         <label for="bypassSite1">Bypass Site:</label>
-        <input type="text" id="bypassSite1" placeholder="Enter site to bypass (e.g., https://example.com)" required>
+        <input type="text" id="bypassSite1" placeholder="e.g., youtube.com" required>
       </div>
       <div class="input-group">
         <label for="sessionSite1">Misconfiguration Open Website Session:</label>
@@ -187,6 +199,7 @@
       <p id="method1Status" style="margin-top:10px;"></p>
     </div>
     
+    <!-- Divider -->
     <div class="divider"></div>
     
     <!-- Method 2: Manual Steps -->
@@ -194,7 +207,7 @@
       <h2>Method 2</h2>
       <div class="input-group">
         <label for="bypassSite2">Bypass Site:</label>
-        <input type="text" id="bypassSite2" placeholder="Enter site to bypass (e.g., https://example.com)" required>
+        <input type="text" id="bypassSite2" placeholder="e.g., youtube.com" required>
       </div>
       <div class="input-group">
         <label for="sessionSite2">Misconfiguration Open Website Session:</label>
@@ -209,18 +222,18 @@
   </div>
   
   <script>
-    // Helper function to ensure URLs start with https:// or http://
+    // Helper function to ensure URL starts with http:// or https://
     function normalizeURL(url) {
       url = url.trim();
       if (!/^https?:\/\//i.test(url)) {
-        return "https://" + url;
+        return 'https://' + url;
       }
       return url;
     }
     
     function startMethod1() {
-      const bypassSite = normalizeURL(document.getElementById('bypassSite1').value);
-      const sessionSite = normalizeURL(document.getElementById('sessionSite1').value);
+      let bypassSite = normalizeURL(document.getElementById('bypassSite1').value);
+      let sessionSite = normalizeURL(document.getElementById('sessionSite1').value);
       const statusElem = document.getElementById('method1Status');
       
       if (!bypassSite || !sessionSite) {
@@ -230,16 +243,16 @@
       
       statusElem.textContent = 'Starting auto bypass...';
       
-      // Create hidden iframe to load the session site
+      // Create a hidden iframe for the session site
       let iframe = document.createElement('iframe');
       iframe.style.display = 'none';
       iframe.src = sessionSite;
       document.body.appendChild(iframe);
       
-      // After a short delay, redirect to the bypass site
+      // Wait a few seconds then redirect to the bypass site
       setTimeout(() => {
         window.location.href = bypassSite;
-      }, 3000);
+      }, 3000); // 3-second delay
     }
     
     function openSessionSite(event) {
@@ -262,7 +275,7 @@
       window.open(bypassSite, '_blank');
     }
     
-    // Angled text with random messages and easter egg
+    // Angled text and Easter Egg Code
     document.addEventListener("DOMContentLoaded", function () {
       const angledText = document.getElementById("angled-text");
       const catImage = document.getElementById("cat-image");
@@ -278,7 +291,7 @@
       const chosenMessage = messages[Math.floor(Math.random() * messages.length)];
       angledText.textContent = chosenMessage;
       
-      // If the cat message is chosen, add a click listener to trigger easter egg
+      // If the message is the cat message, add a click listener to trigger the easter egg.
       if (chosenMessage === "Want to see my cat? Click me!") {
         angledText.style.cursor = "pointer";
         angledText.addEventListener("click", function () {
