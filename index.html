@@ -274,7 +274,294 @@
               spread: 70,
               origin: { y: 0.6 }
             });
+            // Hide the cat image after<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LitShark site bypasser</title>
+  <!-- Import the pixel-like font "Press Start 2P" for the angled text -->
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+  <!-- Canvas Confetti Library for the easter egg effect -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    /* CSS Variables for Light/Dark Mode */
+    :root {
+      --bg-color: #ffffff;
+      --text-color: #333333;
+      --header-bg: #007BFF;
+      --header-text: #ffffff;
+      --input-border: #cccccc;
+      --button-bg: #007BFF;
+      --button-text: #ffffff;
+      --button-hover-bg: #0056b3;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg-color: #121212;
+        --text-color: #eeeeee;
+        --header-bg: #1f6feb;
+        --header-text: #ffffff;
+        --input-border: #555555;
+        --button-bg: #1f6feb;
+        --button-text: #ffffff;
+        --button-hover-bg: #1158c7;
+      }
+    }
+
+    /* Global Styles */
+    body {
+      background: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      font-family: sans-serif;
+      position: relative;
+      padding-top: 80px; /* space for fixed header */
+    }
+
+    /* Fixed Header */
+    header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      background: var(--header-bg);
+      color: var(--header-text);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+      z-index: 100;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 1.5rem;
+    }
+    header img {
+      height: 50px;
+      width: auto;
+      display: block;
+      flex-shrink: 0;
+    }
+
+    /* Main Content Container */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 20px;
+    }
+    .input-group {
+      margin: 20px 0;
+    }
+    .input-group input {
+      width: 300px;
+      padding: 10px;
+      font-size: 1rem;
+      border: 1px solid var(--input-border);
+      border-radius: 4px;
+    }
+    .input-group button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background: var(--button-bg);
+      color: var(--button-text);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      margin-left: 10px;
+    }
+    .input-group button:hover {
+      background: var(--button-hover-bg);
+    }
+    iframe {
+      width: 100%;
+      height: 70vh;
+      border: none;
+      margin-top: 20px;
+      border-radius: 4px;
+      background: #fff;
+    }
+    #errorMessage {
+      margin-top: 10px;
+      color: red;
+      white-space: pre-wrap;
+    }
+
+    /* Fixed Sidebar for Common Websites */
+    .sidebar {
+      position: fixed;
+      top: 100px;
+      right: 10px;
+      width: 220px;
+      background: var(--bg-color);
+      border: 1px solid var(--input-border);
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+    .sidebar h3 {
+      margin-top: 0;
+      font-size: 1.1rem;
+      color: var(--text-color);
+    }
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    .sidebar ul li {
+      margin-bottom: 5px;
+    }
+    .sidebar ul li a {
+      color: var(--button-bg);
+      text-decoration: none;
+    }
+    .sidebar ul li a:hover {
+      text-decoration: underline;
+    }
+
+    /* Angled Text Element */
+    #angled-text {
+      position: absolute;
+      left: 10px;
+      bottom: -10px;
+      transform: rotate(-15deg);
+      font-size: 0.8rem;
+      font-family: 'Press Start 2P', cursive;
+      font-style: italic;
+      animation: breathe 2s ease-in-out infinite;
+      cursor: pointer;
+      z-index: 50;
+    }
+    @keyframes breathe {
+      0%, 100% {
+        transform: rotate(-15deg) scale(1);
+      }
+      50% {
+        transform: rotate(-15deg) scale(1.1);
+      }
+    }
+
+    /* Hidden Cat Image for Easter Egg */
+    #cat-image {
+      display: none;
+      max-width: 300px;
+      margin: 1rem auto;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header with Title and Logo -->
+  <header>
+    <h1>LitShark site bypasser</h1>
+    <img src="logo.png" alt="Logo" />
+  </header>
+
+  <!-- Fixed Sidebar with Common Websites -->
+  <div class="sidebar">
+    <h3>Common Websites</h3>
+    <ul id="commonWebsites">
+      <li><a href="https://iogames.onl" target="_blank">iogames.onl</a></li>
+      <li><a href="https://lordz.io" target="_blank">lordz.io</a></li>
+      <li><a href="https://diep.io" target="_blank">diep.io</a></li>
+      <li><a href="https://mope.io" target="_blank">mope.io</a></li>
+      <li><a href="https://wings.io" target="_blank">wings.io</a></li>
+      <li><a href="https://brutal.io" target="_blank">brutal.io</a></li>
+    </ul>
+  </div>
+
+  <!-- Main Content -->
+  <div class="container">
+    <h2>Enter a Website to Bypass</h2>
+    <div class="input-group">
+      <input type="text" id="siteURL" placeholder="Enter website URL (e.g., youtube.com)" />
+      <button onclick="loadWebsite()">Bypass</button>
+    </div>
+    <iframe id="websiteFrame" src=""></iframe>
+    <div id="errorMessage"></div>
+  </div>
+
+  <!-- Angled Text for Easter Egg & Random Message -->
+  <div id="angled-text"></div>
+  <!-- Hidden Cat Image -->
+  <img id="cat-image" src="cat.png" alt="Cat Easter Egg" />
+
+  <script>
+    // Normalize URL: Prepend "https://" if missing.
+    function normalizeURL(url) {
+      url = url.trim();
+      if (!/^https?:\/\//i.test(url)) {
+        return "https://" + url;
+      }
+      return url;
+    }
+
+    let errorTimeout; // Timer for error detection
+
+    function loadWebsite() {
+      let url = document.getElementById('siteURL').value;
+      if (!url) {
+        alert("Please enter a website URL.");
+        return;
+      }
+      url = normalizeURL(url);
+      const iframe = document.getElementById('websiteFrame');
+      const errorMessage = document.getElementById('errorMessage');
+      
+      // Clear previous error message
+      errorMessage.textContent = "";
+      
+      // Set iframe source and start error timer.
+      iframe.src = url;
+      errorTimeout = setTimeout(function(){
+         errorMessage.textContent = "Oh no, we could not crack the firewall of " + url + "\n their devs beat mine ):";
+      }, 10000);
+      
+      // Clear the error timer when iframe loads successfully.
+      iframe.onload = function() {
+        clearTimeout(errorTimeout);
+      };
+    }
+
+    // Angled Text & Easter Egg
+    document.addEventListener("DOMContentLoaded", function () {
+      const angledText = document.getElementById("angled-text");
+      const catImage = document.getElementById("cat-image");
+      const messages = [
+        "Made by a zaga student!",
+        "BRRRRR!",
+        "Why did the chicken cross the road?",
+        "I was bored.",
+        "Do you also procrastinate?",
+        "Want to see my cat? Click me!"
+      ];
+      const chosenMessage = messages[Math.floor(Math.random() * messages.length)];
+      angledText.textContent = chosenMessage;
+      
+      // Always attach a click listener; if the message is the cat message, trigger the easter egg.
+      angledText.addEventListener("click", function () {
+        if (angledText.textContent === "Want to see my cat? Click me!") {
+          if (catImage.style.display === "none") {
+            catImage.style.display = "block";
+            confetti({
+              particleCount: 100,
+              spread: 70,
+              origin: { y: 0.6 }
+            });
             // Hide the cat image after 5 seconds.
+            setTimeout(() => {
+              catImage.style.display = "none";
+            }, 5000);
+          }
+        }
+      });
+    });
+  </script>
+</body>
+</html>
+ 5 seconds.
             setTimeout(() => {
               catImage.style.display = "none";
             }, 5000);
